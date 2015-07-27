@@ -3,7 +3,7 @@ If your implementation of NServiceBus with Azure Service Bus Transport results i
 
   "There was an error deserializing the object of type System.Byte[]"
   
-The root problem is with BrokeredMessage. Underlying GetBody<T>(), and setting the backing payload as a constructor argument, it uses an implementation of DataContractSerializer. When the Transport set the body to type byte[] and retrieved it using GetBody<byte[]>(), WindowsAzure.ServiceBus uses a [Binary] XMLDictionary[Reader|Writer] to serialize and deserialize the payload.
+The root problem is with BrokeredMessage. Using GetBody<T>() and setting the body as a constructor argument directly, it uses an implementation of DataContractSerializer. When the Transport set the body to type byte[] and retrieved it using GetBody<byte[]>(), WindowsAzure.ServiceBus used a [Binary] XMLDictionary[Reader|Writer] to serialize and deserialize the payload.
 
 In order to get around this, you must use streams with BrokeredMessage.
 
