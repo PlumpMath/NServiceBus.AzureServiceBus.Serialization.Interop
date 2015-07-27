@@ -1,14 +1,20 @@
-# Summary
+# The Problem
 If your implementation of NServiceBus with Azure Service Bus Transport results in the below exception message:
 
   "There was an error deserializing the object of type System.Byte[]"
+  
+The root problem is with BrokeredMessage. Underlying GetBody<T>(), and setting the backing payload as a constructor argument, it uses an implementation of DataContractSerializer. When the Transport set the body to type byte[] and retrieved it using GetBody<byte[]>(), WindowsAzure.ServiceBus uses a [Binary] XMLDictionary[Reader|Writer] to serialize and deserialize the payload.
 
-This example shows how to have interop serialization over AzureServiceBus transport in NServiceBus. It solves the probl
+In order to get around this, you must use streams with BrokeredMessage.
+
+## The Solution
+This example shows how to have interop serialization between Java and .NET over AzureServiceBus transport in NServiceBus using JSON. 
 
 # Implementation
-This example uses the *temporary* BrokeredMessageBodyConversion point in v6.3.2 of NServiceBus.Azure.Transports.WindowsAzureServiceBus
+This example uses the **temporary** BrokeredMessageBodyConversion point in v6.3.2 of NServiceBus.Azure.Transports.WindowsAzureServiceBus
 in order to support Java to .NET serialization over Azure Service Bus Transport.
 
+Please refer to the official [NServiceBus.AzureServiceBus](https://github.com/Particular/NServiceBus.AzureServiceBus) repository for progress on the next release. The issue that spawned this example can be found [here](https://github.com/Particular/NServiceBus.AzureServiceBus/issues/49).
 
 ## Extension Point
 
