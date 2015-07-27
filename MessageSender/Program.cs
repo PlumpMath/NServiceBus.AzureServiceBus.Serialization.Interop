@@ -118,7 +118,7 @@
 
     public class AzureServiceBusSettings
     {
-        private const string ConnectionStringFormat = "Endpoint=sb://{0}.windows.net/;SharedAccessKeyName={1};SharedAccessKey={2}";
+        private const string ConnectionStringFormat = "Endpoint=sb://{0}.servicebus.windows.net/;SharedAccessKeyName={1};SharedAccessKey={2}";
 
         public string Namespace { get; private set; }
         public string AccessKeyName { get; private set; }
@@ -127,11 +127,11 @@
 
         public AzureServiceBusSettings()
         {
-            //TODO: replace with real values
+            //TODO: replace with your values
 
-            Namespace = "nsb-serialization-interop";
-            AccessKeyName = "RootManageSharedAccessKey";
-            AccessKey = "[value here of the key]";
+            Namespace = "[namespace here]";
+            AccessKeyName = "[key name here]";
+            AccessKey = "[access key value here]";
             QueueName = "testmessage";
         }
 
